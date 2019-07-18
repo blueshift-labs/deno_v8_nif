@@ -21,10 +21,10 @@ be found at [https://hexdocs.pm/duxtape](https://hexdocs.pm/duxtape).
 
 ### Eval Pointless Args
 Deno is stupid and you can't get results out of the execution
-You can call it with `Duxtape.Native.eval(1,2)` although the arguements are pointless
+You can call it with `Duxtape.Native.eval("var a = 5; a;")`
 
 ### Benchmarking
-* `a =  fn -> :timer.tc(fn -> Duxtape.Native.eval(1,2) end) end`
+* `a =  fn -> :timer.tc(fn -> Duxtape.Native.eval("var a = 5; a;") end) end`
 * `res = Enum.map(0..100_000, fn _ -> Task.async(a) end) |> Enum.map(&Task.await/1)`
-* Timer results seem to lie and preceived time is massive and contradicts results
+* `Enum.filter(res, fn {num, _} -> num >= 100_000 end) |> Enum.count(fn {num, _} -> num end)`
 * `Enum.max_by(res, fn {num, _} -> num end)`
