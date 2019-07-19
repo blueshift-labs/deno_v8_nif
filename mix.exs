@@ -5,7 +5,7 @@ defmodule Duxtape.MixProject do
     [
       app: :duxtape,
       version: "0.1.0",
-      elixir: "~> 1.8.2",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       compilers: [:rustler] ++ Mix.compilers(),
       rustler_crates: rustler_crates(),
