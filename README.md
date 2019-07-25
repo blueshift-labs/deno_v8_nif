@@ -19,18 +19,11 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/duxtape](https://hexdocs.pm/duxtape).
 
-### Eval Pointless Args
-Deno is stupid and you can't get results out of the execution
-You can call it with `Duxtape.Native.eval("var a = 5; a;")`
-
-### Benchmarking
-* `a =  fn -> :timer.tc(fn -> Duxtape.Native.eval("var b = []; for (var i = 0; i <= 10000; i++) { b.push(i); } b;") end) end`
-* `res = Enum.map(0..100_000, fn _ -> Task.async(a) end) |> Enum.map(&Task.await/1)`
-* `Enum.filter(res, fn {num, _} -> num >= 100_000 end) |> Enum.count(fn {num, _} -> num end)` count of things over 100_000 microseconds
-* `Enum.max_by(res, fn {num, _} -> num end)` slowest running
-* `(Enum.map(res, fn {time, _} -> time end) |> Enum.sum()) / 100_000` microsecond average
-
-Ruby is about 1_000 microseconds and rust is ~580 with peak of 750 for running 1 script and not considering parallelism (basically helloworld so it should scale worse when factoring in script complexity)
+### How to run
+* `iex -S mix`
+* `{:ok, ref} = Duxtape.Native.compile("(function (a, b) { return a + b; })")`
+* `Duxtape.Native.eval(ref, "1,2")`
+* Cant eval again as the channel gets destroyed when it goes out of scope :(
 
 ### Production
 * To run with erlang 22 use `RUSTLER_NIF_VERSION=2.14`
